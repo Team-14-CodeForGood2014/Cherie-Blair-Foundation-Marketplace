@@ -2,6 +2,13 @@
 
 import mysql.connector
 
+
+class carrier():
+
+     Name = ""
+     EMail = ""
+     Location = []
+
 #Returns the quantity as a volume in liters
 def convertToLiters(quantity, units):
 
@@ -30,7 +37,7 @@ def convertToKilograms(quantity, units):
     elif units == "ounces":
         return quantity/35.274
 
-def search(quantity, units, keywords, region, usertype):
+def search(quantity, units, keywords, endRegion, usertype):
 
     unitFamily = ""
 
@@ -53,25 +60,45 @@ def search(quantity, units, keywords, region, usertype):
 
 
     #Access database
-
-
         
         cnx = mysql.connector.connect(user='root', password='cfg2014!', host='127.0.0.1', database='c4g', port='3306')
 
         cursor = cnx.cursor()
 
-        query = ("SELECT User1, User2 FROM friendship ")
+
+        
+        #carrier query
+        carriers = []
+        query = ("SELECT Name, EMail, Location FROM carrier")
 
         cursor.execute(query)
 
-        for (User1, User2) in cursor:
-                print("User1: " + str(User1) + " |User2:  " + str(User2))
-		print("")
+        for (Name, EMail, Location) in cursor:
+            individual = carrier()
+            individual.Name = Name
+            individual.EMail = EMail
+            individual.Location = split(Location, ",").trim()
+            carriers.append(individual)
+
+
+
+        #Find carriers with end region in range
+        viableCarriers = []
+
+        for i in range(len(carriers)):
+            for j in range(len(carriers[i].Location)):
+                if carriers[i].Location[j].lower() == endRegion:
+                    viableCarriers.append(viableCarriers[i])
 
 
         
-        #Find carriers with end region in range
         #Find sellers within the ranges of carriers
+
+            #Get sellers
+            #Check for matching with keywords
+            #Check for region matching that of viable carriers
+
+                    
         #Organise by quantity
         #find closest to required quantity
 
