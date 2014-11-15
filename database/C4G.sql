@@ -18,12 +18,24 @@ CREATE SCHEMA IF NOT EXISTS `c4g` DEFAULT CHARACTER SET latin1 ;
 USE `c4g` ;
 
 -- -----------------------------------------------------
+-- Table `c4g`.`carrier`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `c4g`.`carrier` (
+  `E-Mail` VARCHAR(250) NOT NULL,
+  `Name` VARCHAR(45) NOT NULL,
+  `Location` VARCHAR(500) NOT NULL,
+  PRIMARY KEY (`E-Mail`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
 -- Table `c4g`.`customer`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `c4g`.`customer` (
   `E-mail` VARCHAR(250) NOT NULL,
   `Name` VARCHAR(50) NOT NULL,
-  `Adress` VARCHAR(250) NOT NULL,
+  `Location` VARCHAR(500) NOT NULL,
   PRIMARY KEY (`E-mail`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
@@ -41,17 +53,6 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `c4g`.`region`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `c4g`.`region` (
-  `ID` INT(11) NOT NULL,
-  `RegionName` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`ID`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
-
-
--- -----------------------------------------------------
 -- Table `c4g`.`mentor`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `c4g`.`mentor` (
@@ -59,23 +60,18 @@ CREATE TABLE IF NOT EXISTS `c4g`.`mentor` (
   `First name` VARCHAR(45) NOT NULL,
   `Surname` VARCHAR(45) NOT NULL,
   `Role` INT(11) NOT NULL,
-  `Region` INT(11) NOT NULL,
   `Hashpass` VARCHAR(250) NOT NULL,
   `Country` VARCHAR(45) NULL DEFAULT NULL,
   `City` VARCHAR(45) NULL DEFAULT NULL,
   `MobileNum` VARCHAR(45) NULL DEFAULT NULL,
   `Age` INT(11) NULL DEFAULT NULL,
   `Sector` VARCHAR(500) NOT NULL,
+  `Location` VARCHAR(500) NOT NULL,
   PRIMARY KEY (`E-mail`),
-  INDEX `isIN2_idx` (`Region` ASC),
   INDEX `is2_idx` (`Role` ASC),
   CONSTRAINT `is2`
     FOREIGN KEY (`Role`)
     REFERENCES `c4g`.`role` (`ID`)
-    ON UPDATE CASCADE,
-  CONSTRAINT `isIN2`
-    FOREIGN KEY (`Region`)
-    REFERENCES `c4g`.`region` (`ID`)
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
@@ -88,14 +84,13 @@ CREATE TABLE IF NOT EXISTS `c4g`.`mentee` (
   `E-mail` VARCHAR(250) NOT NULL,
   `First name` VARCHAR(45) NOT NULL,
   `Surname` VARCHAR(45) NOT NULL,
-  `Region` INT(11) NOT NULL,
   `Role` INT(11) NOT NULL,
   `Mentor` VARCHAR(250) NOT NULL,
-  `Menteecol` VARCHAR(45) NOT NULL,
+  `Graduate` BINARY(1) NOT NULL,
   `HashPass` VARCHAR(250) NOT NULL,
   `Sector` VARCHAR(500) NOT NULL,
+  `Location` VARCHAR(500) NOT NULL,
   PRIMARY KEY (`E-mail`),
-  INDEX `isIN1_idx` (`Region` ASC),
   INDEX `is1_idx` (`Role` ASC),
   INDEX `MentoredBy_idx` (`Mentor` ASC),
   CONSTRAINT `MentoredBy`
@@ -105,31 +100,23 @@ CREATE TABLE IF NOT EXISTS `c4g`.`mentee` (
   CONSTRAINT `is1`
     FOREIGN KEY (`Role`)
     REFERENCES `c4g`.`role` (`ID`)
-    ON UPDATE CASCADE,
-  CONSTRAINT `isIN1`
-    FOREIGN KEY (`Region`)
-    REFERENCES `c4g`.`region` (`ID`)
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `c4g`.`buysfrom`
+-- Table `c4g`.`products`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `c4g`.`buysfrom` (
-  `ID` INT(11) NOT NULL,
-  `CustomerID` VARCHAR(250) NOT NULL,
-  `ManteeID` VARCHAR(250) NOT NULL,
-  PRIMARY KEY (`ID`),
-  INDEX `ManteeLink_idx` (`ManteeID` ASC),
-  INDEX `CustomerLink_idx` (`CustomerID` ASC),
-  CONSTRAINT `CustomerLink`
-    FOREIGN KEY (`CustomerID`)
-    REFERENCES `c4g`.`customer` (`E-mail`)
-    ON UPDATE CASCADE,
-  CONSTRAINT `ManteeLink`
-    FOREIGN KEY (`ManteeID`)
+CREATE TABLE IF NOT EXISTS `c4g`.`products` (
+  `idProducts` INT(11) NOT NULL,
+  `Name` VARCHAR(45) NOT NULL,
+  `Quantity` DECIMAL(10,0) NOT NULL,
+  `Mentee` VARCHAR(250) NOT NULL,
+  PRIMARY KEY (`idProducts`),
+  INDEX `producedby_idx` (`Mentee` ASC),
+  CONSTRAINT `producedby`
+    FOREIGN KEY (`Mentee`)
     REFERENCES `c4g`.`mentee` (`E-mail`)
     ON UPDATE CASCADE)
 ENGINE = InnoDB
