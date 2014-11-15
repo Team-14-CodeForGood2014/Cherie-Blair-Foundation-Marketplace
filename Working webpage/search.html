@@ -34,6 +34,12 @@
       margin: 0 auto;
       float:left
     }
+    .hide{
+      display:none;
+    }
+    .show{
+      display:true;
+    }
 </style>
   <style>
     header {
@@ -129,9 +135,20 @@
         Units of interest
         <br>
           <select id="units" class="row-fluid" title='units' data-width="50px" >
-              <option>pieces</option>
-              <option>liters</option>
-              <option>kilos</option>
+          <optgroup label="Solids">
+              <option>Kilograms</option>
+              <option>Tonnes</option>
+              <option>Stone</option>
+              <option>Pounds</option>
+              <option>Ounces</option>
+              <option>Grams</option>
+          <optgroup label="Liquids">
+              <option>Liters</option>
+              <option>Milliliters</option>
+              <option>Gallons</option>
+              <option>Pounds</option>
+          <optgroup label="Loose">
+              <option>Pieces</option>
           </select>
           </br>
         </div>
@@ -168,20 +185,29 @@
       <button id="search" type="submit" class="btn btn-default" style="float:left;margin-top:20px;margin-left:5px">Search</button>
   </div>
 </div>
-<table id="table_best" class="table table-striped">
+<table id="table_best" class="table table-striped" style="width: 70%;margin-left: auto;margin-right: auto;">
+  <thead class="hide">
+    <th style="width:25%"><p style="font-size:17px">Best Match</p>Result</th>
+    <th style="width:25%">Company</th>
+    <th style="width:25%">Region</th>
+    <th>Carier</th>
+  </thead>
   <tbody></tbody>
-<table id="table_alt" class="table table-striped">
+<table id="table_alt" class="table table-striped" style="width: 70%;margin-left: auto;margin-right: auto;">
+  <thead class="hide">
+    <th style="width:25%"><p style="font-size:17px">Alternative Matches</p>Result</th>
+    <th style="width:25%">Company</th>
+    <th style="width:25%">Region</th>
+    <th>Carier</th>
+  </thead>
   <tbody></tbody>
 <table>
-
-
-  
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script src="https://s3.amazonaws.com/jetstrap-site/lib/underscore-min.js"></script>
   <script src="https://s3.amazonaws.com/jetstrap-site/lib/backbone-min.js"></script>
   <script src="https://s3.amazonaws.com/jetstrap-site/lib/bootstrap_custom/js/bootstrap.min.js"></script>
-  <script type="text/javascript">
+  <script>
   $(document).ready(function() {
   // Function to get input value.
   // buyer
@@ -194,20 +220,51 @@
   alert("Enter an Integer In Input Field");
   }else{
     $.getJSON('http://localhost/cfg/dummy_api.php', function(data){
-          for (var i = 0; i < data['data'].length; i++) {
-      alert("Enter an Integer In");
-      document.write(data['data'][i].qualitymatch,'\n');
+      for (var i = 0; i < data['data'].length; i++) {
       if(data['data'][i].qualitymatch==0){
+          $("#table_best").find('thead')[0].className="";
           $("#table_best").find('tbody')
           .append($('<tr>')
               .append($('<td>')
-                  .append($('<div>get</div>')
-                      //.attr('src', 'img.png')
-                      //.text('Image cell')
+                  .append($('<div>'+data['data'][i].unitvalue+" "+data['data'][i].unit+" of "+data['data'][i].keyword+'</div>')
+                  )
+              )
+              .append($('<td>')
+                  .append($('<div>'+data['data'][i].meName+'</div>')
+                  )
+              )
+              .append($('<td>')
+                  .append($('<div>'+data['data'][i].region+'</div>')
+                  )
+              )
+              .append($('<td>')
+                  .append($('<div>'+data['data'][i].carier+'</div>')
                   )
               )
           );
-    }
+      }
+      if(data['data'][i].qualitymatch>0){
+          $("#table_alt").find('thead')[0].className="";
+          $("#table_alt").find('tbody')
+          .append($('<tr>')
+              .append($('<td>')
+                  .append($('<div>'+data['data'][i].unitvalue+" "+data['data'][i].unit+" of "+data['data'][i].keyword+'</div>')
+                  )
+              )
+              .append($('<td>')
+                  .append($('<div>'+data['data'][i].meName+'</div>')
+                  )
+              )
+              .append($('<td>')
+                  .append($('<div>'+data['data'][i].region+'</div>')
+                  )
+              )
+              .append($('<td>')
+                  .append($('<div>'+data['data'][i].carier+'</div>')
+                  )
+              )
+          );
+      }
 
 
     }
