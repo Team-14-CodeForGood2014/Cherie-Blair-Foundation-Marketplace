@@ -1,4 +1,4 @@
-@import url("common.css");
+\@import url("common.css");
 
 html, body {
   margin: 0;
@@ -532,21 +532,22 @@ header .no-right-border {
 
 .big-icon-plane {
   display: inline-block;
-  background: url('https://s3.amazonaws.com/jetstrap-site/images/website/index/what_icon.png') no-repeat transparent;
+  background: url('what_icon.png') no-repeat transparent;
   width: 123px;
   height: 123px;
 }
 
 .big-icon-wrench {
   display: inline-block;
-  background: url('https://s3.amazonaws.com/jetstrap-site/images/website/index/who_icon.png') no-repeat transparent;
+  background: url('what_icon1.png') no-repeat transparent;
   width: 123px;
   height: 123px;
+  size:500px;
 }
 
 .big-icon-heart {
   display: inline-block;
-  background: url('https://s3.amazonaws.com/jetstrap-site/images/website/index/why_icon.png') no-repeat transparent;
+  background: url('what_icon3.png') no-repeat transparent;
   width: 123px;
   height: 123px;
 }
