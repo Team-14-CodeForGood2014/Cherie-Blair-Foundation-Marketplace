@@ -1,5 +1,7 @@
 #Scripts for the search
 
+import mysql.connector
+
 #Returns the quantity as a volume in liters
 def convertToLiters(quantity, units):
 
@@ -33,6 +35,8 @@ def search(quantity, units, keywords, region, usertype):
     unitFamily = ""
 
     #Determine if liquid, solid or loose
+    #Convert to corresponding standard measure(liters, kilograms, pieces)
+
     if units in ["liters", "milliliters", "gallons", "pints"]:
         unitFamily="liquids"
         convertToLiters(quantity, units)
@@ -43,12 +47,29 @@ def search(quantity, units, keywords, region, usertype):
     else:
         unitFamily = "loose"
 
-    #Convert to corresponding standard measure(liters, kilograms, pieces)
+        
     #function convertToLiters
     #function convertToKilograms
 
-    
+
     #Access database
+
+
+        
+        cnx = mysql.connector.connect(user='root', password='cfg2014!', host='127.0.0.1', database='c4g', port='3306')
+
+        cursor = cnx.cursor()
+
+        query = ("SELECT User1, User2 FROM friendship ")
+
+        cursor.execute(query)
+
+        for (User1, User2) in cursor:
+                print("User1: " + str(User1) + " |User2:  " + str(User2))
+		print("")
+
+
+        
         #Find carriers with end region in range
         #Find sellers within the ranges of carriers
         #Organise by quantity
