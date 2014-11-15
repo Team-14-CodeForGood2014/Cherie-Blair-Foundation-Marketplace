@@ -109,22 +109,23 @@ def search(quantity, units, keywords, endRegion, usertype):
         
         #Find sellers within the ranges of carriers
 
-            #Get sellers
+        #Get sellers
             
-            sellers = []
-            query = ("SELECT Firstname, Surname, Email, Graduate, Location FROM mentee")
+        sellers = []
+        query = ("SELECT Firstname, Surname, Email, Graduate, Location FROM mentee")
 
-            cursor.execute(query)
+        cursor.execute(query)
 
-            for Firstname, Surname, Email, Graduate, Location in cursor:
-                individual = seller()
-                individual.Firstname = Firstname
-                individual.Surname = Surname
-                individual.Email = Email
-                individual.Graduate = Graduate
-                individual.Location = Location
+        for Firstname, Surname, Email, Graduate, Location in cursor:
+            individual = seller()
+            individual.Firstname = Firstname
+            individual.Surname = Surname
+            individual.Email = Email
+            individual.Graduate = Graduate
+            individual.Location = Location
 
-                if individual.Graduate == True or (usertype == "mentee" or usertype == "mentor")
+            #Prevents non graduated accounts from being shown
+            if individual.Graduate == True or (usertype == "mentee" or usertype == "mentor"):
             
                 #Get products of user
                 products = []
