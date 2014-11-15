@@ -6,8 +6,23 @@ import mysql.connector
 class carrier():
 
      Name = ""
-     EMail = ""
+     Email = ""
      Location = []
+
+class seller():
+
+    Firstname = ""
+    Surname = ""
+    Email = ""
+    Graduate = False
+    Location = ""
+
+    Products = []
+
+class product():
+
+    Name = ""
+    Quantity = ""
 
 #Returns the quantity as a volume in liters
 def convertToLiters(quantity, units):
@@ -69,14 +84,14 @@ def search(quantity, units, keywords, endRegion, usertype):
         
         #carrier query
         carriers = []
-        query = ("SELECT Name, EMail, Location FROM carrier")
+        query = ("SELECT Name, Email, Location FROM carrier")
 
         cursor.execute(query)
 
-        for (Name, EMail, Location) in cursor:
+        for (Name, Email, Location) in cursor:
             individual = carrier()
             individual.Name = Name
-            individual.EMail = EMail
+            individual.Email = Email
             individual.Location = split(Location, ",").trim()
             carriers.append(individual)
 
@@ -95,7 +110,40 @@ def search(quantity, units, keywords, endRegion, usertype):
         #Find sellers within the ranges of carriers
 
             #Get sellers
-            #Check for matching with keywords
+            
+            sellers = []
+            query = ("SELECT Firstname, Surname, Email, Graduate, Location FROM mentee")
+
+            cursor.execute(query)
+
+            for Firstname, Surname, Email, Graduate, Location in cursor:
+                individual = seller()
+                individual.Firstname = Firstname
+                individual.Surname = Surname
+                individual.Email = Email
+                individual.Graduate = Graduate
+                individual.Location = Location
+
+                if individual.Graduate == True or (usertype == "mentee" or usertype == "mentor")
+            
+                #Get products of user
+                products = []
+                query = ("SELECT Name, Quantity, MenteeEmail FROM products WHERE MenteeEmail = '" + str(individual.Email) + "'")
+
+                cursor.execute(query)
+
+                for Name, Quantity in cursor:
+                    individualProduct = product()
+                    individualProduct.Name = Name
+                    individualProduct.Quantity = Quantity
+
+                    products.append(individualProduct)
+
+                individual.Products = products
+                
+            
+            
+            #Check for matching with keywords and their products
             #Check for region matching that of viable carriers
 
                     
