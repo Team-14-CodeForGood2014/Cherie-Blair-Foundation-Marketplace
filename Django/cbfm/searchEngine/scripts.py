@@ -1,8 +1,32 @@
 #Scripts for the search
 
+#Returns the quantity as a volume in liters
 def convertToLiters(quantity, units):
 
-def convertToKilograms(quantity, units)
+    if units == "liter":
+        return quantity * 1.0
+    elif units == "milliliter":
+        return quantity/1000.0
+    elif units == "gallons":
+        return quantity*4.54609
+    elif units == "pints":
+        return quantity/1.7598
+
+
+def convertToKilograms(quantity, units):
+
+    if units == "kilograms":
+        return quantity*1.0
+    elif units == "grams":
+        return quantity/1000.0
+    elif units == "tonnes":
+        return quantity * 1000.0
+    elif units == "stone":
+        return quantity*6.35029
+    elif units == "pounds":
+        return quantity/2.20462
+    elif units == "ounces":
+        return quantity/35.274
 
 def search(quantity, units, keywords, region, usertype):
 
