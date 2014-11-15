@@ -1,18 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Jetstrap - The Bootstrap Interface Builder</title>
+  <title> Cherie Blair Foundation for Women</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="keywords" content="Bootstrap,Twitter Bootstrap,Mockup,Builder,Interface Builder,CSS Framework,Drag and drop,WYSIWYG,Codiqa,Drifty,Twitter">
-  <meta name="description" content="Rapid interface builder for Twitter Bootstrap. Generates real Bootstrap HTML, CSS, and Javascript. Easy and fast!">
-
-  <meta property="og:title" content="Jetstrap: The Twitter Bootstrap Builder Tool" />
-  <meta property="og:url" content="https://jetstrap.com/" />
-  <meta property="og:site_name" content="Jetstrap for Bootstrap" />
-  <meta name="og:description" content="Rapid interface builder for Twitter Bootstrap. Generates real Bootstrap HTML, CSS, and Javascript. Easy and fast!" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="http://jetstrap-site.s3.amazonaws.com/images/social/twitter.png" />
 
   <link rel="stylesheet" href="https://s3.amazonaws.com/jetstrap-site/css/normalize.css" type="text/css" />
   <link rel="stylesheet" href="https://s3.amazonaws.com/jetstrap-site/lib/bootstrap/css/bootstrap.min.css" />
@@ -41,6 +33,12 @@
       display: table;
       margin: 0 auto;
       float:left
+    }
+    .hide{
+      display:none;
+    }
+    .show{
+      display:true;
     }
 </style>
   <style>
@@ -137,9 +135,20 @@
         Units of interest
         <br>
           <select id="units" class="row-fluid" title='units' data-width="50px" >
-              <option>pieces</option>
-              <option>liters</option>
-              <option>kilos</option>
+          <optgroup label="Solids">
+              <option>Kilograms</option>
+              <option>Tonnes</option>
+              <option>Stone</option>
+              <option>Pounds</option>
+              <option>Ounces</option>
+              <option>Grams</option>
+          <optgroup label="Liquids">
+              <option>Liters</option>
+              <option>Milliliters</option>
+              <option>Gallons</option>
+              <option>Pounds</option>
+          <optgroup label="Loose">
+              <option>Pieces</option>
           </select>
           </br>
         </div>
@@ -176,6 +185,23 @@
       <button id="search" type="submit" class="btn btn-default" style="float:left;margin-top:20px;margin-left:5px">Search</button>
   </div>
 </div>
+<table id="table_best" class="table table-striped" style="width: 70%;margin-left: auto;margin-right: auto;">
+  <thead class="hide">
+    <th style="width:25%"><p style="font-size:17px">Best Match</p>Result</th>
+    <th style="width:25%">Company</th>
+    <th style="width:25%">Region</th>
+    <th>Carier</th>
+  </thead>
+  <tbody></tbody>
+<table id="table_alt" class="table table-striped" style="width: 70%;margin-left: auto;margin-right: auto;">
+  <thead class="hide">
+    <th style="width:25%"><p style="font-size:17px">Alternative Matches</p>Result</th>
+    <th style="width:25%">Company</th>
+    <th style="width:25%">Region</th>
+    <th>Carier</th>
+  </thead>
+  <tbody></tbody>
+<table>
 
 
   
@@ -184,9 +210,10 @@
   <script src="https://s3.amazonaws.com/jetstrap-site/lib/underscore-min.js"></script>
   <script src="https://s3.amazonaws.com/jetstrap-site/lib/backbone-min.js"></script>
   <script src="https://s3.amazonaws.com/jetstrap-site/lib/bootstrap_custom/js/bootstrap.min.js"></script>
-  <script type="text/javascript">
+  <script>
   $(document).ready(function() {
   // Function to get input value.
+  // buyer
   $('#search').click(function() {
   var unitvalue = $("#unitvalue").val();
   var unit= $('#units').val();
@@ -195,9 +222,58 @@
   if(unitvalue=='' || $.isNumeric(unitvalue)==false) {
   alert("Enter an Integer In Input Field");
   }else{
-  alert(unitvalue+unit+region+keywords);
+    $.getJSON('http://localhost/cfg/dummy_api.php', function(data){
+      for (var i = 0; i < data['data'].length; i++) {
+      if(data['data'][i].qualitymatch==0){
+          $("#table_best").find('thead')[0].className="";
+          $("#table_best").find('tbody')
+          .append($('<tr>')
+              .append($('<td>')
+                  .append($('<div>'+data['data'][i].unitvalue+" "+data['data'][i].unit+" of "+data['data'][i].keyword+'</div>')
+                  )
+              )
+              .append($('<td>')
+                  .append($('<div>'+data['data'][i].meName+'</div>')
+                  )
+              )
+              .append($('<td>')
+                  .append($('<div>'+data['data'][i].region+'</div>')
+                  )
+              )
+              .append($('<td>')
+                  .append($('<div>'+data['data'][i].carier+'</div>')
+                  )
+              )
+          );
+      }
+      if(data['data'][i].qualitymatch>0){
+          $("#table_alt").find('thead')[0].className="";
+          $("#table_alt").find('tbody')
+          .append($('<tr>')
+              .append($('<td>')
+                  .append($('<div>'+data['data'][i].unitvalue+" "+data['data'][i].unit+" of "+data['data'][i].keyword+'</div>')
+                  )
+              )
+              .append($('<td>')
+                  .append($('<div>'+data['data'][i].meName+'</div>')
+                  )
+              )
+              .append($('<td>')
+                  .append($('<div>'+data['data'][i].region+'</div>')
+                  )
+              )
+              .append($('<td>')
+                  .append($('<div>'+data['data'][i].carier+'</div>')
+                  )
+              )
+          );
+      }
+
+
+    }
+    });
   }
-  });
+  }); 
 
 });
   </script>
