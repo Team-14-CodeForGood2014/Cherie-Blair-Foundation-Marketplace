@@ -16,7 +16,7 @@ $json = <<<EOT
 				"keyword": "butter",
 				"meName": "Bob",
 				"region": "Europe",
-				"carier": "DHL",
+				"carrier": "DHL",
 				"qualitymatch": 0
 			},
 			{
@@ -25,7 +25,7 @@ $json = <<<EOT
 				"keyword": "butter",
 				"meName": "Kris",
 				"region": "Europe",
-				"carier": "Express",
+				"carrier": "Express",
 				"qualitymatch": 0
 			},
 			{
@@ -34,7 +34,7 @@ $json = <<<EOT
 				"keyword": "butter",
 				"meName": "Carlos",
 				"region": "Europe",
-				"carier": "DHL",
+				"carrier": "DHL",
 				"qualitymatch": 1
 			},
 			{
@@ -43,7 +43,7 @@ $json = <<<EOT
 				"keyword": "butter",
 				"meName": "William",
 				"region": "Asia",
-				"carier": "DHL",
+				"carrier": "DHL",
 				"qualitymatch": 1
 			},
 			{
@@ -52,7 +52,7 @@ $json = <<<EOT
 				"keyword": "butter",
 				"meName": "David",
 				"region": "Europe",
-				"carier": "DHL",
+				"carrier": "DHL",
 				"qualitymatch": 1
 			}
 		]
