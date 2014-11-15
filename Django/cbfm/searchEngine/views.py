@@ -10,10 +10,17 @@ def results(request):
 
     #Find Query string
 
-#    requestParse = urlparse.parse_qs(request)
     quantity = request.GET['quantity']
     units = request.GET['units']
     keywords = request.GET['keywords']
     region = request.GET['region']
+    usertype = request.GET['usertype']
+
+    quantity = str(quantity).lower()
+    units = str(units).lower()
+    keywords = str(keywords).lower()
+    region = str(region).lower()
+    usertype = str(usertype).lower()
     
-    return HttpResponse(scripts.main(quantity,units,keywords,region)))
+    return HttpResponse(scripts.search(quantity, units, keywords, region, usertype))
+
